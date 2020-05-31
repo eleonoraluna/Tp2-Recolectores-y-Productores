@@ -15,7 +15,7 @@ Debe recibir dos archivos: el de trabajadores que indica cuál es la cantidad de
 que tendremos que crear de cada uno y el mapa con la distribución de los recursos.
 
 ```
-	Ej: ./tp trabajadores.cfg mapa.txt
+    Ej: ./tp trabajadores.cfg mapa.txt
 ```
 
 El main se encarga de instanciar un Game y correrlo.
@@ -59,7 +59,7 @@ Se encuentra protegido por un mutex de tal manera que no hayan dos accesos concu
 Para que los productores fuesen avisados de que están disponibles todos los recursos que necesitan, se hizo
 uso de una condition variable como podemos ver en la siguiente porción de código:
 
-```
+```c++
 int Inventory::remove_resources(int res1,int res2,int count1,int count2){
 	std::unique_lock<std::mutex> lock(this->m); //lockea el mutex
 	while(!this->available_resources(res1,res2,count1,count2)){
