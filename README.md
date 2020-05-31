@@ -24,27 +24,27 @@ El main se encarga de instanciar un Game y correrlo.
 
 #### Game
 
-Esta clase se encarga de monitorear el programa en general. Representa al hilo ppal.Hace uso de la clase
+Esta clase se encarga de monitorear el programa en general. Representa al hilo ppal. Hace uso de la clase
 Reader para leer el archivo de trabajadores y el mapa. Una vez obtenidas las cantidades de trabajadores se
 encarga de spawnearlos y terminarlos de forma ordenada. Tiene una instancia de la clase de
 Blocking_queue para cada cola bloqueante utilizada por los recolectores. Allí, va repartiendo
-los recursos que lee del mapa con la ayuda de la instancia de la clase Reader.Tambien, tiene
+los recursos que lee del mapa con la ayuda de la instancia de la clase Reader. También, tiene
 una instancia de la clase Inventory y de la clase Benefitpoints las cuales serán compartidas entre
 todos los trabajadores para ir agregando y sacando recursos de allí y sumando los puntos correspondientes.
 Por último, hace uso de una instancia de la clase Printer para imprimir los recursos y puntos del inventario.
-En el caso de haber tenido algun problema tratando de abrir o parsear los archivos, devuelve 1.
+En el caso de haber tenido algún problema tratando de abrir o parsear los archivos, devuelve 1.
 
 #### Reader
 
 Esta clase se encarga de leer tanto el archivo de trabajadores como el del mapa. Para ello se le pasan
 los nombres de cada uno de los archivos y éste se encarga de abrirlos y hacer las operaciones correspondientes
-sobre ellos. El archivo de trabajadores lo lee linea a linea y si tiene algun problema en el parseo
-devuelve un 1. También devuelve un 1 en caso de que no se haya podido abrir alguno de los archivos.
+sobre ellos. El archivo de trabajadores lo lee linea a linea y el mapa de a un caracter. Si tiene algún problema
+en el parseo devuelve un 1. También devuelve un 1 en caso de que no se haya podido abrir alguno de los archivos.
 
 #### Printer
 
 Se encarga de imprimir los restantes de recursos que quedan en el inventario y los puntos de beneficio
-acumulados. Para ello se lo crea con la instancia de inventario y de puntos de beneficio del Game
+acumulados. Para ello, se lo crea con la instancia de inventario y de puntos de beneficio del Game,
 y una vez que los colectores y productores terminaron su trabajo, se llama a la funcion print() para
 que imprima todos los datos pedidos.
 
@@ -66,10 +66,10 @@ int Inventory::remove_resources(int res1,int res2,int count1,int count2){
 		if(this->isclosed){ //si el inventario esta cerrado(no va a recibir más recursos)
 			return 1;   //tengo que salir, no espero más
 		}
-		this->cond_var.wait(lock); //si no esta cerrado el inventario espero a que me despierten
+		this->cond_var.wait(lock); //si no está cerrado el inventario espero a que me despierten
 	}
 ```
-A la condition variable se le va a notificar cuando agreguen un recurso o cuando cierren el Inventario(en el
+A la condition variable se le va a notificar cuando agreguen un recurso o cuando cierren el Inventario (en el
 caso de que los recolectores hayan terminado de llenar el inventario). Cuando agregan un recurso, se volverá a 
 chequear si se encuentran los recursos que necesitan disponibles. Si es así, se procede a sacar los recursos del 
 inventario. En caso contrario,si el inventario fue cerrado, sale de la función y sino sigue esperando a que lo vuelvan a 
@@ -82,17 +82,17 @@ recursos y depositarlos en el inventario. Al tener varios accesos concurrentes a
 una cola común en una clase protegida por un mutex. También se hace uso de una condition variable para notificar
 cuándo se agrega un recurso a la cola como vemos en la siguiente parte del código:
 
-```
+```c++
 char* Blocking_queue::remove(){
-	  std::unique_lock<std::mutex> lock(this->m);//lockea el mutex
-	  while (this->myqueue.empty()){//si no hay recursos en la cola
-		  if (this->isclosed){ //si cerraron la cola(el hilo ppal no tiene mas recursos para colocar en ella)
-			return NULL;   //salgo de la función
-		  }
-	  this->cond_var.wait(lock);   //sino me quedo esperando a que me notifiquen cuando agregan un recurso
+      std::unique_lock<std::mutex> lock(this->m);//lockea el mutex
+      while (this->myqueue.empty()){//si no hay recursos en la cola
+        if (this->isclosed){ //si cerraron la cola(el hilo ppal no tiene más recursos para colocar en ella)
+		return NULL;   //salgo de la función
+        }
+      this->cond_var.wait(lock);   //sino me quedo esperando a que me notifiquen cuando agregan un recurso
 ```
 A la condition variable se le va a notificar cuando agregen un recurso o cuando cierren la cola. En el caso de que la 
-cola haya sido cerrada, se sale de la función y se devuelve un *NULL. En cambio, si se agrego un recurso, se procede a
+cola haya sido cerrada, se sale de la función y se devuelve un *NULL. En cambio, si se agregó un recurso, se procede a
 removerlo de la cola y devolverlo.
 
 #### Thread
