@@ -118,6 +118,6 @@ Si bien no estamos utilizando objetos lo que se intenta mostrar es cómo interac
 
 
 <p align="center">
-<img src="diagrama_secuencia.png">
+<img src="diag_secuencia.png">
 </p>
 
