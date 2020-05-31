@@ -20,7 +20,7 @@ que tendremos que crear de cada uno y el mapa con la distribución de los recurs
 
 El main se encarga de instanciar un Game y correrlo.
 
-#### **Clases:**
++ **Clases:**
 
 #### Game
 
