@@ -1,4 +1,4 @@
-# Tp2-Recolectores y Productores
+# TP2-Recolectores y Productores
 
 **Apellido y nombre:** Eleonora Luna 
 **Padron:** 96444
@@ -7,7 +7,7 @@
 
 ## Informe
 
-### 1. Arquitectura General
+### 1. ###Arquitectura General
 
 #### Main principal
 
@@ -20,7 +20,8 @@ que tendremos que crear de cada uno y el mapa con la distribución de los recurs
 
 El main se encarga de instanciar un Game y correrlo.
 
-### Clases
+#### Clases
+___________
 
 #### Game
 
