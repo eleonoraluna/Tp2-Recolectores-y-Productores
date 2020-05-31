@@ -115,7 +115,7 @@ generados al acumulador de puntos de beneficio.
 
 A continuación se muestra un diagrama de secuencia general de cómo se implementó la solución. El hilo principal
 crea tantos Collectors y Producers como indique el archivo de trabajadores y las colas bloqueantes son 3.
-Una para cada tipo de recolector. Los collectors usan la cola que les corresponde segun el tipo de recolector que sean.
+Una para cada tipo de recolector. Los collectors usan la cola que les corresponde según el tipo de recolector que sean.
 
 
 <p align="center">
