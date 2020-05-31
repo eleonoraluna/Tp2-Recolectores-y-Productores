@@ -113,8 +113,9 @@ generados al acumulador de puntos de beneficio.
 
 ### 2. Diagrama de la solución
 
-A continuación se muestra un diagrama de secuencia de la solución que se implementó.
-Si bien no estamos utilizando objetos lo que se intenta mostrar es cómo interactúan los TDAs entre si.
+A continuación se muestra un diagrama de secuencia general de cómo se implementó la solución. El hilo principal
+crea tantos Collectors y Producers como indique el archivo de trabajadores y las colas bloqueantes son 3.
+Una para cada tipo de recolector. Los collectors usan la cola que les corresponde segun el tipo de recolector que sean.
 
 
 <p align="center">
