@@ -8,11 +8,13 @@
 #include "Blocking_queue.h"
 #include "Printer.h"
 #include "Thread.h"
+#include <map>
 
 class Game{
 public:
-	explicit Game(int worker_types,const std::string &filename_workers,
+	explicit Game(int resources,const std::string &filename_workers,
 			      const std::string &filename_map);
+
 	//retorna 1 si en caso de algun error al abrir,leer o parsear alguno
 	//de los parametros o archivos
 	int run();
@@ -20,9 +22,7 @@ public:
 
 private:
 	enum resources{wheat,wood,coal,iron};
-	//indices en el vector de trabajadores
-	enum workerstypes{agriculturist,lumberjack,miner,chef,carpenter,armourer};
-	std::vector<int> workers;
+	std::map<std::string,int> workers;
 	std::vector<Thread*> agriculturists;
 	std::vector<Thread*> lumberjacks;
 	std::vector<Thread*> miners;
@@ -53,8 +53,6 @@ private:
 	void join_producers();
 	void clear();//liberamos recursos
 };
-
-
 
 
 #endif /* GAME_H_ */

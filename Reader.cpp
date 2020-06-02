@@ -1,6 +1,6 @@
-#include <iostream>
 #include <vector>
 #include <string>
+#include <map>
 #include "Reader.h"
 
 Reader::Reader(const std::string &filename_workers,
@@ -17,7 +17,6 @@ bool Reader::map_eof(){
 
 int Reader::openFiles(){
 	if (!this->file_workers || !this->file_map){
-		std::cout<<"error al abrir los archivos:"<<std::endl;
 		return 1;
 	}
 	return 0;
@@ -31,17 +30,19 @@ int Reader::readResource(char &resource){
 	return 0;
 }
 
-int Reader::readWorkers(std::vector<int> &workers,int position){
-	std::string line,aux;
-	int number;
+int Reader::readWorkers(std::map<std::string,int> &workers){
+	std::string line,aux,worker;
+	int number,length;
 	std::getline(this->file_workers,line);
 	std::size_t pos=line.find("=");
 	if (pos==std::string::npos){
 		return 1;
 	}
+	length=line.size();
+	worker=line.substr(0,length-2);
 	aux=line[pos+1];
 	number=std::stoi(aux);
-	workers[position]=number;
+	workers.emplace(worker,number);
 	return 0;
 }
 

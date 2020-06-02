@@ -16,9 +16,9 @@ const int carpenteriron=1;
 const int armourercoal=2;
 const int armoureriron=2;
 
-Game::Game(int worker_types,const std::string &filename_workers,
-		   const std::string &filename_map):workers(worker_types,0),
-		   inventory(4),myprinter(this->inventory,this->mypoints),
+Game::Game(int resources,const std::string &filename_workers,
+		   const std::string &filename_map):
+		   inventory(resources),myprinter(this->inventory,this->mypoints),
 		   reader(filename_workers,filename_map){}
 
 void Game::hand_out_resources(){
@@ -51,7 +51,7 @@ void Game::close_queues(){
 int Game::count_workers(){
 	int i=0,exit=0;
 	while(!this->reader.workers_eof() && exit==0){
-	exit=this->reader.readWorkers(this->workers,i);
+	exit=this->reader.readWorkers(this->workers);
 	i++;
 	}
 	return exit;
@@ -83,22 +83,22 @@ void Game::start_workers(std::vector<Thread*> &workers){
 
 void Game::collect(){
 	 create_collectors(this->agriculturists,this->agr_queue,
-			          this->workers[agriculturist]);
+				       this->workers.at("Agricultores"));
 	 create_collectors(this->lumberjacks,this->l_queue,
-			          this->workers[lumberjack]);
-	 create_collectors(this->miners,this->m_queue,this->workers[miner]);
+				       this->workers.at("Leniadores"));
+	 create_collectors(this->miners,this->m_queue,this->workers.at("Mineros"));
 	 start_workers(this->agriculturists);
 	 start_workers(this->lumberjacks);
 	 start_workers(this->miners);
 }
 
 void Game::produce(){
-	 create_producers(this->chefs,this->workers[chef],wheat,coal,chefwheat,
-			         chefcoal,pointschef);
-	 create_producers(this->carpenters,this->workers[carpenter],wood,iron,
-			         carpenterwood,carpenteriron,pointscarpenter);
-	 create_producers(this->armourers,this->workers[armourer],coal,iron,
-			         armourercoal,armoureriron,pointsarmourer);
+	 create_producers(this->chefs,this->workers.at("Cocineros"),wheat,coal,
+			          chefwheat,chefcoal,pointschef);
+	 create_producers(this->carpenters,this->workers.at("Carpinteros"),wood,
+			          iron,carpenterwood,carpenteriron,pointscarpenter);
+	 create_producers(this->armourers,this->workers.at("Armeros"),coal,iron,
+				      armourercoal,armoureriron,pointsarmourer);
 	 start_workers(this->chefs);
 	 start_workers(this->carpenters);
 	 start_workers(this->armourers);

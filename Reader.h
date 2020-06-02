@@ -3,6 +3,7 @@
 #include <fstream>
 #include <vector>
 #include <string>
+#include <map>
 
 class Reader{
 public:
@@ -15,7 +16,7 @@ public:
 	//lee de a 1 caracter el archivo del mapa
 	int readResource(char &resource);
 	//retorna 1 si hubo algun error de parseo
-	int readWorkers(std::vector<int> &workers,int position);
+	int readWorkers(std::map<std::string,int> &workers);
 	~Reader();
 private:
 	std::ifstream file_workers;
